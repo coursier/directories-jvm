@@ -1,10 +1,14 @@
-[![Maven Central](https://img.shields.io/maven-central/v/dev.dirs/directories.svg?style=for-the-badge)](https://search.maven.org/#search|gav|1|g%3A%22dev.dirs%22%20AND%20a%3A%22directories%22)
-[![API documentation](http://javadoc.io/badge/dev.dirs/directories.svg?style=for-the-badge)](http://javadoc.io/doc/dev.dirs/directories)
+[![Maven Central](https://img.shields.io/maven-central/v/io.get-coursier.util/directories.svg?style=for-the-badge)](https://search.maven.org/#search|gav|1|g%3A%22io.get-coursier.util%22%20AND%20a%3A%22directories%22)
+[![API documentation](http://javadoc.io/badge/io.get-coursier.util/directories.svg?style=for-the-badge)](http://javadoc.io/doc/io.get-coursier.util/directories)
 ![actively developed](https://img.shields.io/badge/maintenance-actively_developed-brightgreen.svg?style=for-the-badge)
-[![GitHub Actions status](https://img.shields.io/github/actions/workflow/status/dirs-dev/directories-jvm/test.yml?branch=main&style=for-the-badge)](https://github.com/dirs-dev/directories-jvm/actions/workflows/test.yml)
-[![License: MPL-2.0](https://img.shields.io/github/license/dirs-dev/directories-jvm.svg?style=for-the-badge)](LICENSE)
+[![GitHub Actions status](https://img.shields.io/github/actions/workflow/status/coursier/directories-jvm/ci.yml?branch=main&style=for-the-badge)](https://github.com/coursier/directories-jvm/actions/workflows/ci.yml)
+[![License: MPL-2.0](https://img.shields.io/github/license/coursier/directories-jvm.svg?style=for-the-badge)](LICENSE)
 
-# Directories
+# Coursier directories-jvm
+
+Fork of of the [dirs-dev/directories-jvm](https://github.com/dirs-dev/directories-jvm) project, with [coursier](https://github.com/coursier/coursier)-specific changes
+
+Below is the README of the upstream [dirs-dev/directories-jvm](https://github.com/dirs-dev/directories-jvm), slightly modified for the fork (Maven Central organization, version, JVM requirements).
 
 ## Introduction
 
@@ -22,7 +26,7 @@ The library provides the location of these directories by leveraging the mechani
 
 ## Platforms
 
-This library is written in Java, and runs on the JVM (≥ 6).
+This library is written in Java, and runs on the JVM (≥ 8).
 
 A version of this library implemented in Rust is provided by [directories-rs](https://github.com/dirs-dev/directories-rs).
 
@@ -35,23 +39,23 @@ Add the library as a dependency to your project:
 ##### Maven
 ```xml
 <dependency>
-  <groupId>dev.dirs</groupId>
+  <groupId>io.get-coursier.util</groupId>
   <artifactId>directories</artifactId>
-  <version>26</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 ##### Gradle
 ```groovy
-compile 'dev.dirs:directories:26'
+compile 'io.get-coursier.util:directories:0.1.0'
 ```
 
 ##### SBT
 ```scala
-"dev.dirs" % "directories" % "26"
+"io.get-coursier.util" % "directories" % "0.1.0"
 ```
 
-The library itself is built against Java 6 to allow for the widest possible usage scenarios.
-It can be used on any Java version >= 6.
+The library itself is built against Java 8 to allow for the widest possible usage scenarios.
+It can be used on any Java version >= 8.
 
 #### Example
 
@@ -185,7 +189,11 @@ The version number of this library consists of a whole number, which is incremen
 
 ## Changelog
 
-### 26 – current stable `dev.dirs:directories` release
+### 0.1.0
+
+- First fork release
+
+### 26
 
 - Adds support for IBM Series i (OS/400). Thanks @ThePrez!
 
