@@ -9,7 +9,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: Test ${{ matrix.OS }}
+    runs-on: ${{ matrix.OS }}
+    strategy:
+      fail-fast: false
+      matrix:
+        OS: ["ubuntu-latest", "windows-latest", "macos-13", "macos-14"]
     steps:
     - uses: actions/checkout@v3
       with:
