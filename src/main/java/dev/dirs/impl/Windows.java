@@ -13,6 +13,8 @@ import java.lang.foreign.SymbolLookup;
 import java.lang.foreign.ValueLayout;
 import java.lang.invoke.MethodHandle;
 
+import java.util.ArrayList;
+
 import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 import static java.lang.foreign.ValueLayout.JAVA_CHAR;
 
@@ -33,50 +35,6 @@ public final class Windows {
   private static final AddressLayout C_POINTER = ValueLayout.ADDRESS
       .withTargetLayout(MemoryLayout.sequenceLayout(java.lang.Long.MAX_VALUE, JAVA_BYTE));
   private static final ValueLayout.OfInt C_LONG = ValueLayout.JAVA_INT;
-
-  public static String getProfileDir() {
-    return getDir("{5E6C858F-0E22-4760-9AFE-EA3317B67173}");
-  }
-
-  public static String getMusicDir() {
-    return getDir("{4BD8D571-6D19-48D3-BE97-422220080E43}");
-  }
-
-  public static String getDesktopDir() {
-    return getDir("{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}");
-  }
-
-  public static String getDocumentsDir() {
-    return getDir("{FDD39AD0-238F-46AF-ADB4-6C85480369C7}");
-  }
-
-  public static String getDownloadsDir() {
-    return getDir("{374DE290-123F-4565-9164-39C4925E467B}");
-  }
-
-  public static String getPicturesDir() {
-    return getDir("{33E28130-4E1E-4676-835A-98395C3BC3BB}");
-  }
-
-  public static String getPublicDir() {
-    return getDir("{DFDF76A2-C82A-4D63-906A-5644AC457385}");
-  }
-
-  public static String getTemplatesDir() {
-    return getDir("{A63293E8-664E-48DB-A079-DF759E0509F7}");
-  }
-
-  public static String getVideosDir() {
-    return getDir("{18989B1D-99B5-455B-841C-AB7C74E4DDFC}");
-  }
-
-  public static String getRoamingAppDataDir() {
-    return getDir("{3EB685DB-65F9-4CF6-A03A-E3EF65729F3D}");
-  }
-
-  public static String getLocalAppDataDir() {
-    return getDir("{F1B32785-6FBA-4FCF-9D55-7B8E7F157091}");
-  }
 
   public static String applicationPath(String qualifier, String organization, String application) {
     StringBuilder buf = new StringBuilder(Math.max(Util.stringLength(organization) + Util.stringLength(application), 0));
@@ -102,6 +60,13 @@ public final class Windows {
       SHGetKnownFolderPath(guidSegment, 0, MemorySegment.NULL, path);
       return createStringFromSegment(path.get(C_POINTER, 0));
     }
+  }
+
+  public static String[] getWinDirs(String... folderIds) {
+    ArrayList<String> list = new ArrayList<>();
+    for (int i = 0; i < folderIds.length; i += 1)
+      list.add(getDir(folderIds[i]));
+    return list.toArray(new String[0]);
   }
 
   /**
