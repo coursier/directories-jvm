@@ -175,6 +175,13 @@ public final class UtilTest {
   }
 
   @Test
+  public void testPowershellBase64StringIsNotPadded() {
+    if (Constants.operatingSystem == 'w') {
+      assertFalse(WindowsPowerShell.SCRIPT_START_BASE64.endsWith("="));
+    }
+  }
+
+  @Test
   public void testPowershellOne() {
     if (Constants.operatingSystem == 'w') {
       String[] winDirs = Windows.getWinDirs("3EB685DB-65F9-4CF6-A03A-E3EF65729F3D");
