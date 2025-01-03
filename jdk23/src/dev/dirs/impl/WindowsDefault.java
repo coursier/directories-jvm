@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 final class WindowsDefault {
 
   static Supplier<Windows> getDefaultSupplier() {
-    return () -> new WindowsPowerShell();
+    return () -> new WindowsForeign();
   }
 
 }

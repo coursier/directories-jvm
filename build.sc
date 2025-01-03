@@ -34,12 +34,30 @@ object directories extends JavaModule with PublishModule {
     else value
   }
 
+  def javacOptions = super.javacOptions() ++ Seq(
+    "--release", "8"
+  )
   def javadocOptions = super.javadocOptions() ++ Seq(
     "-Xdoclint:none"
   )
 
   def sources = T.sources {
     Seq(PathRef(T.workspace / "src/main"))
+  }
+
+  def jdk23ClassesResources = T {
+    val destDir = T.dest / "META-INF/versions/23"
+    os.makeDir.all(destDir)
+    for (elem <- os.list(jdk23.compile().classes.path))
+      os.copy(elem, destDir / elem.last)
+    PathRef(T.dest)
+  }
+
+  def resources = T {
+    T.sources(super.resources() ++ Seq(jdk23ClassesResources()))
+  }
+  def manifest = T {
+    super.manifest().add("Multi-Release" -> "true")
   }
 
   object test extends JavaTests {
@@ -52,4 +70,11 @@ object directories extends JavaModule with PublishModule {
     )
     def testFramework = "com.novocode.junit.JUnitFramework"
   }
+}
+
+object jdk23 extends JavaModule {
+  def moduleDeps = Seq(directories)
+  def javacOptions = super.javacOptions() ++ Seq(
+    "--release", "23"
+  )
 }
