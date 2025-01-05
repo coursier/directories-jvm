@@ -5,7 +5,7 @@ import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-object directories extends JavaModule with PublishModule {
+trait DirectoriesPublishModule extends PublishModule {
   def pomSettings = PomSettings(
     description = "directories-jvm",
     organization = "io.get-coursier.util",
@@ -33,7 +33,9 @@ object directories extends JavaModule with PublishModule {
     }
     else value
   }
+}
 
+object directories extends JavaModule with DirectoriesPublishModule {
   def javacOptions = super.javacOptions() ++ Seq(
     "--release", "8"
   )
@@ -70,6 +72,16 @@ object directories extends JavaModule with PublishModule {
     )
     def testFramework = "com.novocode.junit.JUnitFramework"
   }
+}
+
+object `directories-jni` extends JavaModule with DirectoriesPublishModule {
+  def moduleDeps = Seq(directories)
+  def ivyDeps = Agg(
+    ivy"io.get-coursier.jniutils:windows-jni-utils:0.3.3"
+  )
+  def javacOptions = super.javacOptions() ++ Seq(
+    "--release", "8"
+  )
 }
 
 object jdk23 extends JavaModule {
