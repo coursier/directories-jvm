@@ -2,8 +2,11 @@ import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.4.1`
 
 import de.tobiasroeser.mill.vcs.version.VcsVersion
 import mill._
+import mill.define.ModuleRef
 import mill.scalalib._
 import mill.scalalib.publish._
+
+import scala.util.Properties
 
 trait DirectoriesPublishModule extends PublishModule {
   def pomSettings = PomSettings(
@@ -62,15 +65,20 @@ object directories extends JavaModule with DirectoriesPublishModule {
     super.manifest().add("Multi-Release" -> "true")
   }
 
-  object test extends JavaTests {
-    def sources = T.sources {
-      Seq(PathRef(T.workspace / "src/test"))
-    }
-    def ivyDeps = super.ivyDeps() ++ Agg(
-      ivy"junit:junit:4.13",
-      ivy"com.novocode:junit-interface:0.11"
+  def localRepo = Task {
+    val dest = Task.dest
+
+    new LocalIvyPublisher(T.dest).publishLocal(
+      jar = jar().path,
+      sourcesJar = sourceJar().path,
+      docJar = docJar().path,
+      pom = pom().path,
+      ivy = ivy().path,
+      artifact = artifactMetadata(),
+      extras = extraPublish()
     )
-    def testFramework = "com.novocode.junit.JUnitFramework"
+
+    PathRef(dest)
   }
 }
 
@@ -90,3 +98,37 @@ object jdk23 extends JavaModule {
     "--release", "23"
   )
 }
+
+object java8ZincWorker extends ZincWorkerModule {
+  override def jvmId =
+    if (Properties.isMac) "zulu:8"
+    else "8"
+}
+
+trait Tests extends Cross.Module[String] with JavaModule {
+  def zincWorker = crossValue match {
+    case "8" => ModuleRef(java8ZincWorker)
+    case "default" => super.zincWorker
+  }
+
+  def ivyDeps = Agg(
+    ivy"${directories.pomSettings().organization}:directories:${directories.publishVersion()}"
+  )
+  def repositoriesTask = Task.Anon {
+    Seq(
+      coursier.parse.RepositoryParser.repository(
+        "ivy:" + directories.localRepo().path.toNIO.toUri.toASCIIString + "[defaultPattern]"
+      ).fold(err => throw new Exception(err), x => x)
+    ) ++ super.repositoriesTask()
+  }
+
+  object test extends JavaTests {
+    def ivyDeps = super.ivyDeps() ++ Agg(
+      ivy"junit:junit:4.13",
+      ivy"com.novocode:junit-interface:0.11"
+    )
+    def testFramework = "com.novocode.junit.JUnitFramework"
+  }
+}
+
+object tests extends Cross[Tests]("8", "default")

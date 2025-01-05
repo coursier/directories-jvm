@@ -9,6 +9,10 @@ import static org.junit.Assert.assertNotNull;
 
 public final class UtilTest {
 
+  static {
+    System.out.println("Tests Java version: " + System.getProperty("java.version"));
+  }
+
   @Test
   public void testStripQualification01() {
     final String input    = "org.foo.BarApp";
