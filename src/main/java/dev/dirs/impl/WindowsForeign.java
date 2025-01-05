@@ -49,7 +49,7 @@ public final class WindowsForeign implements Windows {
   public String[] winDirs(String... folderIds) {
     String[] values = new String[folderIds.length];
     for (int i = 0; i < folderIds.length; i += 1)
-      values[i] = getDir(folderIds[i]);
+      values[i] = getDir("{" + folderIds[i] + "}");
     return values;
   }
 
