@@ -182,6 +182,16 @@ public final class UtilTest {
   }
 
   @Test
+  public void testPowershellOne() {
+    if (Constants.operatingSystem == 'w') {
+      String[] winDirs = Windows.getWinDirs("3EB685DB-65F9-4CF6-A03A-E3EF65729F3D");
+      for (String winDir : winDirs) {
+        assertNotNull(winDir);
+      }
+    }
+  }
+
+  @Test
   public void testPowershell() {
     if (Constants.operatingSystem == 'w') {
       String[] winDirs = Windows.getWinDirs("3EB685DB-65F9-4CF6-A03A-E3EF65729F3D", "F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
