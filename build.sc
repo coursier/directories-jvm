@@ -34,9 +34,6 @@ object directories extends JavaModule with PublishModule {
     else value
   }
 
-  def javacOptions = super.javacOptions() ++ Seq(
-    "--release", "8"
-  )
   def javadocOptions = super.javadocOptions() ++ Seq(
     "-Xdoclint:none"
   )
