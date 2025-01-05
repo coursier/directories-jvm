@@ -1,5 +1,7 @@
 package dev.dirs.impl;
 
+import java.util.function.Supplier;
+
 public interface Windows {
 
   static String applicationPath(String qualifier, String organization, String application) {
@@ -19,6 +21,10 @@ public interface Windows {
   String[] winDirs(String... folderIds);
 
   public static String[] getWinDirs(String... folderIds) {
-    return WindowsDefault.getDefaultSupplier().get().winDirs(folderIds);
+    return getDefaultSupplier().get().winDirs(folderIds);
+  }
+
+  public static Supplier<Windows> getDefaultSupplier() {
+    return WindowsDefault.getDefaultSupplier();
   }
 }

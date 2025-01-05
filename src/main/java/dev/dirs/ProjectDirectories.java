@@ -5,6 +5,7 @@ import dev.dirs.impl.MacOs;
 import dev.dirs.impl.Util;
 import dev.dirs.impl.Windows;
 
+import java.util.function.Supplier;
 import java.util.Objects;
 
 /** {@code ProjectDirectories} computes the location of cache, config or data directories for a specific application,
@@ -228,6 +229,10 @@ public final class ProjectDirectories {
     * @return A new {@code ProjectDirectories} instance, whose directory field values are directly derived from the {@code path} argument.
     */
   public static ProjectDirectories fromPath(String path) {
+    return fromPath(path, Windows.getDefaultSupplier());
+  }
+
+  public static ProjectDirectories fromPath(String path, Supplier<Windows> windows) {
     String homeDir;
     String cacheDir;
     String configDir;
@@ -258,7 +263,7 @@ public final class ProjectDirectories {
         preferenceDir = homeDir + "/Library/Preferences/"         + path;
         break;
       case Constants.WIN:
-        String[] winDirs = Windows.getWinDirs("3EB685DB-65F9-4CF6-A03A-E3EF65729F3D", "F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
+        String[] winDirs = windows.get().winDirs("3EB685DB-65F9-4CF6-A03A-E3EF65729F3D", "F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
         String appDataRoaming = winDirs[0] + '\\' + path;
         String appDataLocal   = winDirs[1] + '\\' + path;
         dataDir       = appDataRoaming + "\\data";
@@ -294,6 +299,10 @@ public final class ProjectDirectories {
     * {@code qualifier}, {@code organization} and {@code application} arguments.
     */
   public static ProjectDirectories from(String qualifier, String organization, String application) {
+    return from(qualifier, organization, application, Windows.getDefaultSupplier());
+  }
+
+  public static ProjectDirectories from(String qualifier, String organization, String application, Supplier<Windows> windows) {
     if (Util.isNullOrEmpty(organization) && Util.isNullOrEmpty(application))
       throw new UnsupportedOperationException("organization and application arguments cannot both be null/empty");
     String path;
@@ -314,7 +323,7 @@ public final class ProjectDirectories {
       default:
         throw new UnsupportedOperatingSystemException("Project directories are not supported on " + Constants.operatingSystemName);
     }
-    return fromPath(path);
+    return fromPath(path, windows);
   }
 
   @Override
