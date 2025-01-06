@@ -4,6 +4,8 @@ import dev.dirs.impl.Linux;
 import dev.dirs.impl.Util;
 import dev.dirs.impl.Windows;
 
+import java.util.function.Supplier;
+
 /** {@code UserDirectories} provides paths of user-facing standard directories, following the conventions of the operating system the library is running on.
   *
   * <h2>Examples</h2>
@@ -297,10 +299,14 @@ public final class UserDirectories {
     * @return A new {@code UserDirectories} instance.
     */
   public static UserDirectories get() {
-     return new UserDirectories();
+     return get(Windows.getDefaultSupplier());
    }
 
-  private UserDirectories() {
+  public static UserDirectories get(Supplier<Windows> windows) {
+     return new UserDirectories(windows);
+   }
+
+  private UserDirectories(Supplier<Windows> windows) {
     switch (Constants.operatingSystem) {
       case Constants.LIN:
       case Constants.BSD:
@@ -343,7 +349,7 @@ public final class UserDirectories {
         videoDir      = homeDir + "/Movies";
         break;
       case Constants.WIN:
-        String[] winDirs = Windows.getWinDirs(
+        String[] winDirs = windows.get().winDirs(
             "5E6C858F-0E22-4760-9AFE-EA3317B67173",
             "4BD8D571-6D19-48D3-BE97-422220080E43",
             "B4BFCC3A-DB2C-424C-B029-7FE99A87C641",
