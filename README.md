@@ -10,6 +10,7 @@ Fork of of the [dirs-dev/directories-jvm](https://github.com/dirs-dev/directorie
 Compared to the upstream project, this fork:
 * still supports JDK 8
 * offers to use JNI rather than shelling out to a PowerShell script to call Windows APIs with JDK < 23
+* contains a number of fixes for Windows
 
 ## How to use
 
