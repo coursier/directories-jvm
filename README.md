@@ -1,10 +1,9 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.get-coursier.util/directories.svg?style=for-the-badge)](https://search.maven.org/#search|gav|1|g%3A%22io.get-coursier.util%22%20AND%20a%3A%22directories%22)
-[![API documentation](http://javadoc.io/badge/io.get-coursier.util/directories.svg?style=for-the-badge)](http://javadoc.io/doc/io.get-coursier.util/directories)
-![actively developed](https://img.shields.io/badge/maintenance-actively_developed-brightgreen.svg?style=for-the-badge)
-[![GitHub Actions status](https://img.shields.io/github/actions/workflow/status/coursier/directories-jvm/ci.yml?branch=main&style=for-the-badge)](https://github.com/coursier/directories-jvm/actions/workflows/ci.yml)
-[![License: MPL-2.0](https://img.shields.io/github/license/coursier/directories-jvm.svg?style=for-the-badge)](LICENSE)
+[![Maven Central](https://img.shields.io/maven-central/v/io.get-coursier.util/directories.svg)](https://search.maven.org/#search|gav|1|g%3A%22io.get-coursier.util%22%20AND%20a%3A%22directories%22)
+[![API documentation](http://javadoc.io/badge/io.get-coursier.util/directories.svg)](http://javadoc.io/doc/io.get-coursier.util/directories)
+[![CI](https://github.com/coursier/directories-jvm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/coursier/directories-jvm/actions/workflows/ci.yml)
+[![License: MPL-2.0](https://img.shields.io/github/license/coursier/directories-jvm.svg)](LICENSE)
 
-# Coursier directories-jvm
+# directories-jvm (Coursier fork)
 
 Fork of of the [dirs-dev/directories-jvm](https://github.com/dirs-dev/directories-jvm) project, with [coursier](https://github.com/coursier/coursier)-specific changes
 
