@@ -9,6 +9,10 @@ import static org.junit.Assert.assertNotNull;
 
 public final class UtilTest {
 
+  static {
+    System.out.println("Tests Java version: " + System.getProperty("java.version"));
+  }
+
   @Test
   public void testStripQualification01() {
     final String input    = "org.foo.BarApp";
@@ -177,7 +181,7 @@ public final class UtilTest {
   @Test
   public void testPowershellBase64StringIsNotPadded() {
     if (Constants.operatingSystem == 'w') {
-      assertFalse(Windows.SCRIPT_START_BASE64.endsWith("="));
+      assertFalse(WindowsPowerShell.SCRIPT_START_BASE64.endsWith("="));
     }
   }
 
