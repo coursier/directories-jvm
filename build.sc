@@ -90,6 +90,22 @@ object `directories-jni` extends JavaModule with DirectoriesPublishModule {
   def javacOptions = super.javacOptions() ++ Seq(
     "--release", "8"
   )
+
+  def localRepo = Task {
+    val dest = Task.dest
+
+    new LocalIvyPublisher(T.dest).publishLocal(
+      jar = jar().path,
+      sourcesJar = sourceJar().path,
+      docJar = docJar().path,
+      pom = pom().path,
+      ivy = ivy().path,
+      artifact = artifactMetadata(),
+      extras = extraPublish()
+    )
+
+    PathRef(dest)
+  }
 }
 
 object jdk23 extends JavaModule {
@@ -131,4 +147,38 @@ trait Tests extends Cross.Module[String] with JavaModule {
   }
 }
 
+trait TestsJni extends Cross.Module[String] with JavaModule {
+  def zincWorker = crossValue match {
+    case "8" => ModuleRef(java8ZincWorker)
+    case "default" => super.zincWorker
+  }
+
+  def ivyDeps = Agg(
+    ivy"${`directories-jni`.pomSettings().organization}:directories-jni:${`directories-jni`.publishVersion()}"
+  )
+  def repositoriesTask = Task.Anon {
+    Seq(
+      coursier.parse.RepositoryParser.repository(
+        "ivy:" + directories.localRepo().path.toNIO.toUri.toASCIIString + "[defaultPattern]"
+      ).fold(err => throw new Exception(err), x => x),
+      coursier.parse.RepositoryParser.repository(
+        "ivy:" + `directories-jni`.localRepo().path.toNIO.toUri.toASCIIString + "[defaultPattern]"
+      ).fold(err => throw new Exception(err), x => x)
+    ) ++ super.repositoriesTask()
+  }
+
+  object test extends JavaTests {
+    def ivyDeps = super.ivyDeps() ++ Agg(
+      ivy"junit:junit:4.13",
+      ivy"com.novocode:junit-interface:0.11"
+    )
+    def testFramework = "com.novocode.junit.JUnitFramework"
+  }
+}
+
 object tests extends Cross[Tests]("8", "default")
+
+object `tests-jni` extends Cross[TestsJni](
+  if (Properties.isWin) Seq("8", "default")
+  else Seq.empty[String]
+)
