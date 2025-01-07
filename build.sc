@@ -47,7 +47,7 @@ object directories extends JavaModule with DirectoriesPublishModule {
   )
 
   def sources = T.sources {
-    Seq(PathRef(T.workspace / "src/main"))
+    Seq(PathRef(T.workspace / "src/main/java"))
   }
 
   def jdk23ClassesResources = T {
@@ -59,7 +59,7 @@ object directories extends JavaModule with DirectoriesPublishModule {
   }
 
   def resources = T {
-    T.sources(super.resources() ++ Seq(jdk23ClassesResources()))
+    T.sources(Seq(PathRef(T.workspace / "src/main/resources")) ++ Seq(jdk23ClassesResources()))
   }
   def manifest = T {
     super.manifest().add("Multi-Release" -> "true")
