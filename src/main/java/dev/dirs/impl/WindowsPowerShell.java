@@ -19,23 +19,27 @@ public final class WindowsPowerShell implements Windows {
   // This string needs to end up being a multiple of 3 bytes after conversion to UTF-16. (It is currently 1200 bytes.)
   // This is because Base64 converts 3 bytes to 4 letters; other numbers of bytes would introduce padding, which
   // would make it harder to simply concatenate this precomputed string with whatever directories the user requests.
-  static final String SCRIPT_START_BASE64 = Constants.operatingSystem == 'w' ? toUTF16LEBase64("& {\n" +
-      "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8\n" +
-      "Add-Type @\"\n" +
-      "using System;\n" +
-      "using System.Runtime.InteropServices;\n" +
-      "public class Dir {\n" +
-      "  [DllImport(\"shell32.dll\")]\n" +
-      "  private static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);\n" +
-      "  public static string GetKnownFolderPath(string rfid) {\n" +
-      "    IntPtr pszPath;\n" +
-      "    if (SHGetKnownFolderPath(new Guid(rfid), 0, IntPtr.Zero, out pszPath) != 0) return \"\";\n" +
-      "    string path = Marshal.PtrToStringUni(pszPath);\n" +
-      "    Marshal.FreeCoTaskMem(pszPath);\n" +
-      "    return path;\n" +
-      "  }\n" +
-      "}\n" +
-      "\"@\n") : null;
+  static final String SCRIPT_START_BASE64 = Constants.operatingSystem == 'w' ? toUTF16LEBase64(
+    """
+& {
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class Dir {
+  [DllImport("shell32.dll")]
+  private static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);
+  public static string GetKnownFolderPath(string rfid) {
+    IntPtr pszPath;
+    if (SHGetKnownFolderPath(new Guid(rfid), 0, IntPtr.Zero, out pszPath) != 0) return "";
+    string path = Marshal.PtrToStringUni(pszPath);
+    Marshal.FreeCoTaskMem(pszPath);
+    return path;
+  }
+}
+"@
+"""
+  ) : null;
 
   public String[] winDirs(String... guids) {
     int guidsLength = guids.length;
