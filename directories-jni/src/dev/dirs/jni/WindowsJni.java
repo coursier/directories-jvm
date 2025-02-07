@@ -23,7 +23,7 @@ public final class WindowsJni implements Windows {
     if (dotIdx >= 0)
       javaVersion = javaVersion.substring(0, dotIdx);
     int jdkVersion = Integer.parseInt(javaVersion);
-    if (jdkVersion >= 23)
+    if (jdkVersion >= 22)
       return Windows.getDefaultSupplier();
     else
       return () -> new WindowsJni();

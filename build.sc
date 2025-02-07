@@ -50,16 +50,16 @@ object directories extends JavaModule with DirectoriesPublishModule {
     Seq(PathRef(T.workspace / "src/main/java"))
   }
 
-  def jdk23ClassesResources = T {
-    val destDir = T.dest / "META-INF/versions/23"
+  def jdk22ClassesResources = T {
+    val destDir = T.dest / "META-INF/versions/22"
     os.makeDir.all(destDir)
-    for (elem <- os.list(jdk23.compile().classes.path))
+    for (elem <- os.list(jdk22.compile().classes.path))
       os.copy(elem, destDir / elem.last)
     PathRef(T.dest)
   }
 
   def resources = T {
-    T.sources(Seq(PathRef(T.workspace / "src/main/resources")) ++ Seq(jdk23ClassesResources()))
+    T.sources(Seq(PathRef(T.workspace / "src/main/resources")) ++ Seq(jdk22ClassesResources()))
   }
   def manifest = T {
     super.manifest().add("Multi-Release" -> "true")
@@ -108,10 +108,10 @@ object `directories-jni` extends JavaModule with DirectoriesPublishModule {
   }
 }
 
-object jdk23 extends JavaModule {
+object jdk22 extends JavaModule {
   def moduleDeps = Seq(directories)
   def javacOptions = super.javacOptions() ++ Seq(
-    "--release", "23"
+    "--release", "22"
   )
 }
 

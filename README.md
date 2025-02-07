@@ -9,7 +9,7 @@ Fork of of the [dirs-dev/directories-jvm](https://github.com/dirs-dev/directorie
 
 Compared to the upstream project, this fork:
 * still supports JDK 8
-* offers to use JNI rather than shelling out to a PowerShell script to call Windows APIs with JDK < 23
+* offers to use JNI rather than shelling out to a PowerShell script to call Windows APIs with JDK < 22
 * contains a number of fixes for Windows
 
 ## How to use
@@ -38,7 +38,7 @@ projDirs.preferenceDir // "/Users/name/Library/Preferences/MyApp"
 // ...
 ```
 
-## How to use with JNI fallback on JDK < 23
+## How to use with JNI fallback on JDK < 22
 
 ### Add dependency
 
