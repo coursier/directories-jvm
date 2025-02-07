@@ -1,5 +1,7 @@
 package dev.dirs.impl;
 
+// based on https://github.com/dirs-dev/directories-jvm/blob/b76e3606c01e6f55b354e32a30e85ee6b9f815ca/src/main/java/dev/dirs/impl/Windows.java
+
 import dev.dirs.Constants;
 
 import java.lang.foreign.AddressLayout;
