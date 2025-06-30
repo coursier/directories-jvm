@@ -85,7 +85,17 @@ public final class WindowsPowerShell implements Windows {
     }
   }
 
+  private static boolean debug() {
+    String fromEnv = System.getenv("COURSIER_DIRECTORIES_POWERSHELL_DEBUG");
+    if ("true".equals(fromEnv))
+      return true;
+    return Boolean.getBoolean("coursier.directories.powershell-debug");
+  }
+
   private static String[] runCommands(int expectedResultLines, Charset charset, String... commands) throws IOException {
+    if (debug())
+      System.err.println("Running command " + String.join(" ", commands));
+
     final Process process = new ProcessBuilder(commands).start();
 
     String[] results = new String[expectedResultLines];
