@@ -117,8 +117,8 @@ object jdk22 extends JavaModule {
 
 object java11ZincWorker extends ZincWorkerModule {
   override def jvmId =
-    if (Properties.isMac) "zulu:8"
-    else "8"
+    if (Properties.isMac) "zulu:11"
+    else "11"
 }
 
 trait Tests extends Cross.Module[String] with JavaModule {
