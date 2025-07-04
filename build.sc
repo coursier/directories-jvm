@@ -115,7 +115,7 @@ object jdk22 extends JavaModule {
   )
 }
 
-object java8ZincWorker extends ZincWorkerModule {
+object java11ZincWorker extends ZincWorkerModule {
   override def jvmId =
     if (Properties.isMac) "zulu:8"
     else "8"
@@ -123,7 +123,7 @@ object java8ZincWorker extends ZincWorkerModule {
 
 trait Tests extends Cross.Module[String] with JavaModule {
   def zincWorker = crossValue match {
-    case "8" => ModuleRef(java8ZincWorker)
+    case "11" => ModuleRef(java11ZincWorker)
     case "default" => super.zincWorker
   }
 
@@ -149,7 +149,7 @@ trait Tests extends Cross.Module[String] with JavaModule {
 
 trait TestsJni extends Cross.Module[String] with JavaModule {
   def zincWorker = crossValue match {
-    case "8" => ModuleRef(java8ZincWorker)
+    case "11" => ModuleRef(java11ZincWorker)
     case "default" => super.zincWorker
   }
 
@@ -176,9 +176,9 @@ trait TestsJni extends Cross.Module[String] with JavaModule {
   }
 }
 
-object tests extends Cross[Tests]("8", "default")
+object tests extends Cross[Tests]("11", "default")
 
 object `tests-jni` extends Cross[TestsJni](
-  if (Properties.isWin) Seq("8", "default")
+  if (Properties.isWin) Seq("11", "default")
   else Seq.empty[String]
 )
