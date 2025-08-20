@@ -19,13 +19,13 @@ Compared to the upstream project, this fork:
 #### Mill
 ```scala
 def ivyDeps = Agg(
-  ivy"io.get-coursier.util:directories:0.1.2"
+  ivy"io.get-coursier.util:directories:0.1.4"
 )
 ```
 
 #### Scala CLI
 ```scala
-//> using dep io.get-coursier.util:directories:0.1.2
+//> using dep io.get-coursier.util:directories:0.1.4
 ```
 
 ### API
@@ -45,13 +45,13 @@ projDirs.preferenceDir // "/Users/name/Library/Preferences/MyApp"
 #### Mill
 ```scala
 def ivyDeps = Agg(
-  ivy"io.get-coursier.util:directories-jni:0.1.2"
+  ivy"io.get-coursier.util:directories-jni:0.1.4"
 )
 ```
 
 #### Scala CLI
 ```scala
-//> using dep io.get-coursier.util:directories-jni:0.1.2
+//> using dep io.get-coursier.util:directories-jni:0.1.4
 ```
 
 ### API
