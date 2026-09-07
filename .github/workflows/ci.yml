@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: ["ubuntu-latest", "windows-latest", "macos-13", "macos-14"]
+        OS: ["ubuntu-latest", "windows-latest", "macos-15", "macos-15-intel"]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -41,7 +41,7 @@ jobs:
         jvm: "23"
     - name: Publish
       run: |
-        ./mill -i mill.scalalib.SonatypeCentralPublishModule/ \
+        ./mill -i mill.javalib.SonatypeCentralPublishModule/ \
           --username "$MILL_SONATYPE_USERNAME" \
           --password "$MILL_SONATYPE_PASSWORD"
       env:
