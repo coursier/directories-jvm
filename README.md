@@ -18,8 +18,8 @@ Compared to the upstream project, this fork:
 
 #### Mill
 ```scala
-def ivyDeps = Agg(
-  ivy"io.get-coursier.util:directories:0.1.4"
+def mvnDeps = Seq(
+  mvn"io.get-coursier.util:directories:0.1.4"
 )
 ```
 
@@ -44,8 +44,8 @@ projDirs.preferenceDir // "/Users/name/Library/Preferences/MyApp"
 
 #### Mill
 ```scala
-def ivyDeps = Agg(
-  ivy"io.get-coursier.util:directories-jni:0.1.4"
+def mvnDeps = Seq(
+  mvn"io.get-coursier.util:directories-jni:0.1.4"
 )
 ```
 

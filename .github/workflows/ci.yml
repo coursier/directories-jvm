@@ -41,7 +41,7 @@ jobs:
         jvm: "23"
     - name: Publish
       run: |
-        ./mill -i mill.scalalib.SonatypeCentralPublishModule/ \
+        ./mill -i mill.javalib.SonatypeCentralPublishModule/ \
           --username "$MILL_SONATYPE_USERNAME" \
           --password "$MILL_SONATYPE_PASSWORD"
       env:
